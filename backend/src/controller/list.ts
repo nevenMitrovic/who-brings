@@ -3,12 +3,22 @@ import createHttpError from "http-errors";
 import ListModel from "../model/list";
 import mongoose from "mongoose";
 
-export const getList: RequestHandler = async (req, res) => {
+export const getList: RequestHandler = async (req, res, next) => {
+    const listId = req.params.listId;
     try {
-        const list = await ListModel.find();
+        if (!mongoose.isValidObjectId(listId)) {
+            throw createHttpError(400, "Invalid list ID");
+        }
+
+        const list = await ListModel.findById(listId).exec();
+
+        if(!list) {
+            throw createHttpError(404, "List not found");
+        }
+
         res.status(200).json(list);
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 };
 
@@ -27,15 +37,15 @@ interface List {
     items?: Item[]
 };
 
-export const createList: RequestHandler<unknown, unknown, List, unknown> = async(req, res, next) => {
+export const createList: RequestHandler<unknown, unknown, List, unknown> = async (req, res, next) => {
     const listName = req.body.name;
     const listDate = req.body.date;
     const listLocation = req.body.location;
     const listDescription = req.body.description;
     const listItems = req.body.items;
     try {
-        if(!listName) {
-            createHttpError(400, "List name missing");
+        if (!listName) {
+            throw createHttpError(400, "List name missing");
         }
 
         const newList = await ListModel.create({
@@ -47,7 +57,7 @@ export const createList: RequestHandler<unknown, unknown, List, unknown> = async
         });
 
         res.status(201).json(newList);
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 };
