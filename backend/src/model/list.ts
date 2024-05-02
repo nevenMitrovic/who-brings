@@ -1,7 +1,7 @@
 import { Schema, InferSchemaType, model } from "mongoose";
 
 const listSchema = new Schema({
-    name: { String },
+    name: { String, require: true },
     date: { String },
     location: { String },
     description: { String },
