@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
+import listRoutes from "./routes/list";
 
 const app = express();
 
@@ -11,6 +12,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use(cors());
+
+app.use('/api/lists/', listRoutes);
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
