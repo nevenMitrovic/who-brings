@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/:listId', controller.getList);
 router.post('/', controller.createList);
-router.put('/:listId', controller.updateList);
+router.patch('/:listId', controller.updateList);
 router.put('/:listId/create', controller.createItem);
+router.patch('/:listId/:itemId', controller.updateItem);
 
 export default router;

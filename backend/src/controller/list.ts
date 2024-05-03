@@ -3,8 +3,6 @@ import createHttpError from "http-errors";
 import ListModel from "../model/list";
 import mongoose from "mongoose";
 
-
-
 export const getList: RequestHandler<ListParams, unknown, List, unknown> = async (req, res, next) => {
     const listId = req.params.listId;
     try {
@@ -64,10 +62,9 @@ interface ListParams {
 
 export const updateList: RequestHandler<ListParams, unknown, List, unknown> = async (req, res, next) => {
     const listId = req.params.listId;
-    const newListName = req.body.name;
-    const newListDate = req.body.date;
-    const newListLocation = req.body.location;
-    const newListDescription = req.body.description;
+    const listDate = req.body.date;
+    const listLocation = req.body.location;
+    const listDescription = req.body.description;
 
     try {
         if (!mongoose.isValidObjectId(listId)) {
@@ -80,20 +77,16 @@ export const updateList: RequestHandler<ListParams, unknown, List, unknown> = as
             throw createHttpError(404, "List not found");
         }
 
-        if (newListName) {
-            list.name = newListName;
+        if (listDate) {
+            list.date = listDate;
         }
 
-        if (newListDate) {
-            list.date = newListDate;
+        if (listLocation) {
+            list.location = listLocation;
         }
 
-        if (newListLocation) {
-            list.location = newListLocation;
-        }
-
-        if (newListDescription) {
-            list.description = newListDescription;
+        if (listDescription) {
+            list.description = listDescription;
         }
 
         const updatedList = await list.save();
@@ -129,6 +122,49 @@ export const createItem: RequestHandler<ListParams, unknown, Item, unknown> = as
         const createdItem = await list.save();
 
         res.status(200).json(createdItem);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = async (req, res, next) => {
+    const itemId = req.params.itemId;
+    const listId = req.params.listId;
+    const { name, description, amount, unit } = req.body;
+
+    try {
+
+        if (!mongoose.isValidObjectId(itemId)) {
+            throw createHttpError(400, "Invalid item ID");
+        }
+
+        const list = await ListModel.findById(listId).exec();
+
+        if (!list) {
+            throw createHttpError(404, "List not found");
+        }
+
+        const item = list.items.find(item => item._id?.toString() == itemId);
+
+        if(!item) {
+            throw createHttpError(404, "Item not found");
+        }
+
+        if(description) {
+            item.description = description;
+        }
+
+        if(amount) {
+            item.amount = amount;
+        }
+
+        if(unit) {
+            item.unit = unit;
+        }
+
+        const updatedItem = await list.save();
+
+        res.status(200).json(updatedItem);
     } catch (error) {
         next(error);
     }
