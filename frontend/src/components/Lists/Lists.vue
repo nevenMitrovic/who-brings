@@ -1,15 +1,19 @@
 <template>
-  <div class="container">
-    <!-- <div v-for="list in lists">
+  <div class="grid grid-cols-4 justify-items-center gap-4 p-4">
+    <div v-for="list in lists" class="cursor-pointer">
       <List :list="list" />
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import List from "./List.vue";
 import listsService from "@/services/lists-service";
+import { onMounted, ref } from "vue";
 
-listsService.getLists()
-.then(res => console.log(res))
+const lists = ref([]);
+
+onMounted(() => {
+  listsService.getLists().then((res) => (lists.value = res));
+});
 </script>
