@@ -22,6 +22,15 @@ export const getList: RequestHandler<ListParams, unknown, List, unknown> = async
     }
 };
 
+export const getLists: RequestHandler = async (req, res, next) => {
+    try {
+        const lists = await ListModel.find().exec();
+        res.status(200).json(lists);
+    } catch(error) {
+        next(error);
+    }
+}
+
 interface Item {
     name: string
     description?: string
