@@ -20,8 +20,9 @@
           :input-type="'text'"
           :input-placeholder="'Prvomajski uranak'"
           :div-width="'w-60'"
+          v-model="list.name"
         />
-        <Button :button-text="'Create your list'" :button-class="'my-5'" />
+        <Button :button-text="'Create your list'" :button-class="'my-5'" @click="createList" />
       </div>
     </div>
   </div>
@@ -30,4 +31,19 @@
 <script setup lang="ts">
 import Input from "@/components/Common/Input.vue";
 import Button from "@/components/Common/Button.vue";
+import listsService from "@/services/lists-service";
+import { type List } from "@/types/list";
+import { reactive } from "vue";
+
+
+let list: List = reactive({
+  name: ''
+});
+
+const createList = (data: List) => {
+  data.name = list.name;
+  listsService.createList(data)
+  .then(res => console.log(res));
+};
+
 </script>
