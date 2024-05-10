@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-4 justify-items-center gap-4 p-4">
+  <div class="grid grid-cols-4 justify-items-center gap-2 p-4">
     <div v-for="list in lists" class="cursor-pointer">
       <List :list="list" />
     </div>
