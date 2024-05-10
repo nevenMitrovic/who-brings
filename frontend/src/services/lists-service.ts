@@ -24,6 +24,15 @@ class ListsService {
         }
     }
 
+    async getList(listId: string) {
+        try {
+            const response = await this.httpClient.get('/lists/' + listId);
+            return response.data;
+        } catch(error) {
+            console.error(error);
+            throw error;
+        }
+    }
 };
 
 export default new ListsService();
