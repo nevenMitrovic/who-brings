@@ -1,7 +1,9 @@
 <template>
   <div class="grid grid-cols-4 justify-items-center gap-2 p-4">
     <div v-for="list in lists" class="cursor-pointer" :key="list._id">
-      <RouterLink :to="{ params: { id: list._id }, name: 'list' }"><ListCard :list="list" /></RouterLink>
+      <RouterLink :to="{ params: { id: list._id }, name: 'list' }">
+        <ListCard :list="list" />
+      </RouterLink>
     </div>
   </div>
 </template>
