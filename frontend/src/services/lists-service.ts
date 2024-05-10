@@ -23,6 +23,7 @@ class ListsService {
             throw error;
         }
     }
+
 };
 
 export default new ListsService();
