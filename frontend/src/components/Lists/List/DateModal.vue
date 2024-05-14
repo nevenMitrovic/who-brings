@@ -4,7 +4,7 @@
     aria-labelledby="modal-title"
     role="dialog"
     aria-modal="true"
-    v-show="modalShow"
+    v-show="props.modalShow"
   >
     <!--
     Background backdrop, show/hide based on modal state.
@@ -43,6 +43,7 @@
               :label="'Start datetime'"
               :input-type="'date'"
               :input-class="'w-40'"
+              v-model="date"
             />
           </div>
           <div
@@ -51,6 +52,7 @@
             <button
               type="button"
               class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+              @click="updateDate"
             >
               Save
             </button>
@@ -71,9 +73,22 @@
 <script setup lang="ts">
 import Input from "../../Common/Input.vue";
 import { useCommonStore } from "@/stores/commonStore";
+import listsService from "@/services/lists-service";
+import { type List } from "@/types/list";
+import { ref } from "vue";
 
-defineProps(['modalShow']);
+const props = defineProps(["modalShow", "list"]);
 
 const commonStore = useCommonStore();
 
+let date = ref("");
+
+const updateDate = (list: any) => {
+  let newDate: string | string[] = date.value.split('-');
+  newDate = newDate[2] + '.' + newDate[1] + '.' +  newDate[0];
+  list.date = newDate;
+
+  listsService.updateList(props.list._id, list)
+  .then(res => commonStore.toggleDateModal())
+};
 </script>

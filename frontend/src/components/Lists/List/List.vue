@@ -10,8 +10,17 @@
         </div>
         <div class="border-b border-gray-200 py-2 flex gap-2">
           <div
+            v-if="list.date"
             class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center w-36 h-8 gap-4 cursor-pointer hover:bg-gray-300"
             @click="() => commonStore.toggleDateModal()"
+          >
+            <CalendarIcon class="h-4 w-4" />
+            {{ list.date }}
+          </div>
+          <div
+            class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center w-36 h-8 gap-4 cursor-pointer hover:bg-gray-300"
+            @click="() => commonStore.toggleDateModal()"
+            v-else
           >
             <CalendarIcon class="h-4 w-4" />
             <span>Add date</span>
@@ -61,11 +70,11 @@
       </div>
     </div>
   </div>
-  <DateModal :modal-show="dateModalVisibility" />
+  <DateModal :modal-show="dateModalVisibility" :list="list" />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
@@ -88,6 +97,12 @@ const id = route.params.id as string;
 let list = ref({});
 
 onMounted(() => {
+  listsService.getList(id).then((res) => {
+    list.value = res;
+  });
+});
+
+watch(dateModalVisibility, () => {
   listsService.getList(id).then((res) => {
     list.value = res;
   });
