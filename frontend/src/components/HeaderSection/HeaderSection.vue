@@ -34,16 +34,18 @@ import Button from "@/components/Common/Button.vue";
 import listsService from "@/services/lists-service";
 import { type List } from "@/types/list";
 import { reactive } from "vue";
-
+import { useRouter } from "vue-router";
 
 let list: List = reactive({
   name: ''
 });
 
+const router = useRouter();
+
 const createList = (data: List) => {
   data.name = list.name;
   listsService.createList(data)
-  .then(res => console.log(res));
+  .then(res => router.push({ path: '/dashboard' }));
 };
 
 </script>
