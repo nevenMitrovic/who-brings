@@ -11,6 +11,7 @@
         <div class="border-b border-gray-200 py-2 flex gap-2">
           <div
             class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center w-36 h-8 gap-4 cursor-pointer hover:bg-gray-300"
+            @click="() => commonStore.toggleDateModal()"
           >
             <CalendarIcon class="h-4 w-4" />
             <span>Add date</span>
@@ -37,7 +38,7 @@
             :label="'Add item:'"
             :input-type="'text'"
             :input-placeholder="'Add item ...'"
-            :div-width="'w-72'"
+            :div-class="'w-72'"
           />
           <Button :button-text="'Submit'" :button-class="'h-10 w-28'" />
         </div>
@@ -60,20 +61,26 @@
       </div>
     </div>
   </div>
+  <DateModal :modal-show="dateModalVisibility" />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
-import Input from "../Common/Input.vue";
-import Button from "../Common/Button.vue";
+import Input from "../../Common/Input.vue";
+import Button from "../../Common/Button.vue";
+import DateModal from "./DateModal.vue";
 import {
   CalendarIcon,
   MapPinIcon,
   DocumentTextIcon,
   CheckCircleIcon,
 } from "@heroicons/vue/24/outline";
+
+const commonStore = useCommonStore();
+const dateModalVisibility = computed(() => commonStore.getDateModalVisibility);
 
 const route = useRoute();
 const id = route.params.id as string;
@@ -83,7 +90,6 @@ let list = ref({});
 onMounted(() => {
   listsService.getList(id).then((res) => {
     list.value = res;
-    console.log(res);
   });
 });
 </script>

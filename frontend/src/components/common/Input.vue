@@ -1,5 +1,5 @@
 <template>
-  <div :class="divWidth">
+  <div :class="divClass">
     <label
       :for="inputId"
       class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 const emits = defineEmits();
-defineProps(['inputId', 'label', 'inputType', 'inputClass', 'inputPlaceholder', 'divWidth']);
+defineProps(['inputId', 'label', 'inputType', 'inputClass', 'inputPlaceholder', 'divClass']);
 const handleInput = (value: string) => {
     emits('update:modelValue', value) // Emit an event to update the model in the parent component
   }

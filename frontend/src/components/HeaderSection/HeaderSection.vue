@@ -19,7 +19,7 @@
           :label="'The list name'"
           :input-type="'text'"
           :input-placeholder="'Prvomajski uranak'"
-          :div-width="'w-60'"
+          :div-class="'w-60'"
           v-model="list.name"
         />
         <Button :button-text="'Create your list'" :button-class="'my-5'" @click="createList" />
