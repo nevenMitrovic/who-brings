@@ -50,8 +50,10 @@
               <CheckCircleIcon class="h-6 w-6 text-gray-200" />
               <span class="text-lg text-gray-800 font-bold">Item</span>
             </div>
-            <div>
-             I CAN BRING
+            <div
+              class="bg-gray-700 text-white rounded text-xs p-1 cursor-pointer hover:bg-gray-500 text-centre"
+            >
+              <span>I can bring</span>
             </div>
           </div>
         </div>
