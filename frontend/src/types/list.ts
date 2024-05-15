@@ -11,4 +11,5 @@ interface Item {
     description?: string,
     amount?: number,
     unit?: string
+    bring?: number
 };
