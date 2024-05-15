@@ -51,13 +51,13 @@
           </div>
         </div>
         <div
-            class="text-gray-800 flex flex-col justify-center p-2 cursor-pointer rounded-md break-words whitespace-normal border-b border-gray-200 hover:bg-gray-100"
-            @click="() => commonStore.toggleDescriptionModal()"
-            v-if="list.description"
-          >
-            <h4 class="text-gray-800 text-xs font-bold">List description:</h4>
-            <span>{{ list.description }}</span>
-          </div>
+          class="text-gray-800 flex flex-col justify-center p-2 cursor-pointer rounded-md break-words whitespace-normal border-b border-gray-200 hover:bg-gray-100"
+          @click="() => commonStore.toggleDescriptionModal()"
+          v-if="list.description"
+        >
+          <h4 class="text-gray-800 text-xs font-bold">List description:</h4>
+          <span>{{ list.description }}</span>
+        </div>
       </div>
       <div>
         <div class="flex flex-col gap-2">
@@ -72,18 +72,8 @@
         </div>
         <div>
           <h2 class="text-2xl text-gray-800 font-bold">Items:</h2>
-          <div
-            class="bg-gray-300 px-4 flex justify-between items-center h-10 rounded-sm"
-          >
-            <div class="flex items-center gap-2">
-              <CheckCircleIcon class="h-6 w-6 text-gray-200" />
-              <span class="text-lg text-gray-800 font-bold">Item</span>
-            </div>
-            <div
-              class="bg-gray-700 text-white rounded text-xs p-1 cursor-pointer hover:bg-gray-500 text-centre"
-            >
-              <span>I can bring</span>
-            </div>
+          <div v-for="item in list.items">
+            <Item :item="item" />
           </div>
         </div>
       </div>
@@ -101,6 +91,7 @@ import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
 import Input from "../../Common/Input.vue";
 import Button from "../../Common/Button.vue";
+import Item from "./Item.vue";
 import DateModal from "../../Modals/Date.vue";
 import LocationModal from "../../Modals/Location.vue";
 import DescriptionModal from "@/components/Modals/Description.vue";
@@ -108,7 +99,6 @@ import {
   CalendarIcon,
   MapPinIcon,
   DocumentTextIcon,
-  CheckCircleIcon,
 } from "@heroicons/vue/24/outline";
 
 const commonStore = useCommonStore();
@@ -131,9 +121,12 @@ onMounted(() => {
   });
 });
 
-watch([dateModalVisibility, locationModalVisibility, descriptionModalVisibility], () => {
-  listsService.getList(id).then((res) => {
-    list.value = res;
-  });
-});
+watch(
+  [dateModalVisibility, locationModalVisibility, descriptionModalVisibility],
+  () => {
+    listsService.getList(id).then((res) => {
+      list.value = res;
+    });
+  }
+);
 </script>

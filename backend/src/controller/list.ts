@@ -36,6 +36,7 @@ interface Item {
     description?: string
     amount?: number
     unit?: string
+    bring?: number
 };
 
 interface List {
@@ -139,7 +140,7 @@ export const createItem: RequestHandler<ListParams, unknown, Item, unknown> = as
 export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = async (req, res, next) => {
     const itemId = req.params.itemId;
     const listId = req.params.listId;
-    const { name, description, amount, unit } = req.body;
+    const { name, description, amount, unit, bring } = req.body;
 
     try {
 
@@ -169,6 +170,10 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
 
         if(unit) {
             item.unit = unit;
+        }
+
+        if(bring) {
+            item.bring = bring;
         }
 
         const updatedItem = await list.save();

@@ -10,6 +10,7 @@ const listSchema = new Schema({
         description: String,
         amount: Number,
         unit: String,
+        bring: { type: Number, default: 0 },
     }],
 },
     { timestamps: true });
