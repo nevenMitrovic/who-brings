@@ -44,7 +44,7 @@
           <div
             class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center p-2 h-8 gap-4 cursor-pointer hover:bg-gray-300"
             @click="() => commonStore.toggleDescriptionModal()"
-            v-else
+            v-if="!list.description"
           >
             <DocumentTextIcon class="h-4 w-4" />
             <span>Add list description</span>
