@@ -6,7 +6,7 @@ export interface List {
     items?: Item[]
 };
 
-interface Item {
+export interface Item {
     name: string,
     description?: string,
     amount?: number,

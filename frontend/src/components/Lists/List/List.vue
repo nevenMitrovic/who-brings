@@ -67,13 +67,18 @@
             :input-type="'text'"
             :input-placeholder="'Add item ...'"
             :div-class="'w-72'"
+            v-model="name"
           />
-          <Button :button-text="'Submit'" :button-class="'h-10 w-28'" />
+          <Button
+            :button-text="'Submit'"
+            :button-class="'h-10 w-28'"
+            @click="createItem(name)"
+          />
         </div>
         <div>
           <h2 class="text-2xl text-gray-800 font-bold">Items:</h2>
           <div v-for="item in list.items">
-            <Item :item="item" />
+            <ItemComponent :item="item" />
           </div>
         </div>
       </div>
@@ -91,7 +96,7 @@ import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
 import Input from "../../Common/Input.vue";
 import Button from "../../Common/Button.vue";
-import Item from "./Item.vue";
+import ItemComponent from "./Item.vue";
 import DateModal from "../../Modals/Date.vue";
 import LocationModal from "../../Modals/Location.vue";
 import DescriptionModal from "@/components/Modals/Description.vue";
@@ -100,6 +105,7 @@ import {
   MapPinIcon,
   DocumentTextIcon,
 } from "@heroicons/vue/24/outline";
+import type { Item } from "@/types/list";
 
 const commonStore = useCommonStore();
 const dateModalVisibility = computed(() => commonStore.getDateModalVisibility);
@@ -113,8 +119,17 @@ const descriptionModalVisibility = computed(
 const route = useRoute();
 const id = route.params.id as string;
 
-let list = ref({});
+let name = ref("");
+const createItem = (name: string) => {
+  let item: Item = { name: name };
 
+  listsService.createItem(id, item).then((res) => {
+    list.value = res;
+    document.getElementById("addItem").value = "";
+  });
+};
+
+let list = ref({});
 onMounted(() => {
   listsService.getList(id).then((res) => {
     list.value = res;

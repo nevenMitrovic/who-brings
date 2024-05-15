@@ -1,5 +1,5 @@
 import { useAxios } from "@/composables/useAxios";
-import { type List } from "@/types/list";
+import { type List, type Item } from "@/types/list";
 
 class ListsService {
     private httpClient = useAxios();
@@ -28,7 +28,7 @@ class ListsService {
         try {
             const response = await this.httpClient.get('/lists/' + listId);
             return response.data;
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             throw error;
         }
@@ -37,6 +37,16 @@ class ListsService {
     async updateList(listId: string, data: List) {
         try {
             const response = await this.httpClient.patch(`/lists/${listId}/`, data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async createItem(listId: string, data: Item) {
+        try {
+            const response = await this.httpClient.put('/lists/' + listId + '/create/', data);
             return response.data;
         } catch (error) {
             console.error(error);
