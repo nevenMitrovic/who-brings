@@ -44,20 +44,20 @@
           <div
             class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center p-2 h-8 gap-4 cursor-pointer hover:bg-gray-300"
             @click="() => commonStore.toggleDescriptionModal()"
-            v-if="list.description"
-          >
-            <DocumentTextIcon class="h-4 w-4" />
-            <span>{{ list.description }}</span>
-          </div>
-          <div
-            class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center p-2 h-8 gap-4 cursor-pointer hover:bg-gray-300"
-            @click="() => commonStore.toggleDescriptionModal()"
             v-else
           >
             <DocumentTextIcon class="h-4 w-4" />
             <span>Add list description</span>
           </div>
         </div>
+        <div
+            class="text-gray-800 flex flex-col justify-center p-2 cursor-pointer rounded-md break-words whitespace-normal hover:bg-gray-100"
+            @click="() => commonStore.toggleDescriptionModal()"
+            v-if="list.description"
+          >
+            <h4 class="text-gray-800 text-xs font-bold">List description:</h4>
+            <span class="border-b border-gray-200">{{ list.description }}</span>
+          </div>
       </div>
       <div>
         <div class="flex flex-col gap-2">
