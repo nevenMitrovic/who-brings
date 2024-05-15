@@ -43,6 +43,16 @@
           </div>
           <div
             class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center p-2 h-8 gap-4 cursor-pointer hover:bg-gray-300"
+            @click="() => commonStore.toggleDescriptionModal()"
+            v-if="list.description"
+          >
+            <DocumentTextIcon class="h-4 w-4" />
+            <span>{{ list.description }}</span>
+          </div>
+          <div
+            class="rounded-3xl bg-gray-200 text-gray-800 flex items-center justify-center p-2 h-8 gap-4 cursor-pointer hover:bg-gray-300"
+            @click="() => commonStore.toggleDescriptionModal()"
+            v-else
           >
             <DocumentTextIcon class="h-4 w-4" />
             <span>Add list description</span>
@@ -81,6 +91,7 @@
   </div>
   <DateModal :modal-show="dateModalVisibility" :list="list" />
   <LocationModal :modal-show="locationModalVisibility" :list="list" />
+  <DescriptionModal :modal-show="descriptionModalVisibility" :list="list" />
 </template>
 
 <script setup lang="ts">
@@ -92,6 +103,7 @@ import Input from "../../Common/Input.vue";
 import Button from "../../Common/Button.vue";
 import DateModal from "../../Modals/Date.vue";
 import LocationModal from "../../Modals/Location.vue";
+import DescriptionModal from "@/components/Modals/Description.vue";
 import {
   CalendarIcon,
   MapPinIcon,
@@ -103,6 +115,9 @@ const commonStore = useCommonStore();
 const dateModalVisibility = computed(() => commonStore.getDateModalVisibility);
 const locationModalVisibility = computed(
   () => commonStore.getLocationModalVisibility
+);
+const descriptionModalVisibility = computed(
+  () => commonStore.getDescriptionModalVisibility
 );
 
 const route = useRoute();
@@ -116,10 +131,9 @@ onMounted(() => {
   });
 });
 
-watch([dateModalVisibility, locationModalVisibility], () => {
+watch([dateModalVisibility, locationModalVisibility, descriptionModalVisibility], () => {
   listsService.getList(id).then((res) => {
     list.value = res;
   });
 });
-
 </script>

@@ -5,6 +5,7 @@ export const useCommonStore = defineStore({
   state: () => ({
     dateModalVisibility: false,
     locationModalVisibility: false,
+    descriptionModalVisibility: false,
   }),
   actions: {
     toggleDateModal() {
@@ -12,10 +13,14 @@ export const useCommonStore = defineStore({
     },
     toggleLocationModal() {
       this.locationModalVisibility = !this.locationModalVisibility;
-    }
+    },
+    toggleDescriptionModal() {
+      this.descriptionModalVisibility = !this.descriptionModalVisibility
+    },
   },
   getters: {
     getDateModalVisibility: (state) => state.dateModalVisibility,
-    getLocationModalVisibility: (state) => state.locationModalVisibility
+    getLocationModalVisibility: (state) => state.locationModalVisibility,
+    getDescriptionModalVisibility: (state) => state.descriptionModalVisibility,
   }
 })
