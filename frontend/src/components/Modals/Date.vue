@@ -71,10 +71,9 @@
 </template>
 
 <script setup lang="ts">
-import Input from "../../Common/Input.vue";
+import Input from "../Common/Input.vue";
 import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
-import { type List } from "@/types/list";
 import { ref } from "vue";
 
 const props = defineProps(["modalShow", "list"]);
