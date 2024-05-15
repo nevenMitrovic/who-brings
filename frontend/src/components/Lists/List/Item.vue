@@ -1,9 +1,10 @@
 <template>
   <div
     class="px-4 flex justify-between items-center h-10 rounded-sm border border-gray-100"
+    :class="item.bring == 1 && 'border-green-300 bg-green-100'"
   >
     <div class="flex items-center gap-2">
-      <CheckCircleIcon class="h-6 w-6 text-gray-200" />
+      <CheckCircleIcon class="h-6 w-6 text-gray-200" :class="item.bring == 1 && 'text-green-300'" />
       <span class="text-lg text-gray-800 font-bold">{{ item.name }}</span>
     </div>
     <div
