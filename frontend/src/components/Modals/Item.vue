@@ -41,16 +41,23 @@
         >
           <div>
             <div class="flex justify-between items-center">
-                <div class="text-2xl font-semibold">{{ props.item.name }}</div>
-                <div class="flex gap-4 text-md">
-                    <div class="cursor-pointer">Edit</div>
-                    <div class="text-red-700 cursor-pointer">Delete</div>
-                </div>
+              <div class="text-2xl font-semibold">{{ props.item.name }}</div>
+              <div class="flex gap-4 text-md">
+                <div class="cursor-pointer">Edit</div>
+                <div class="text-red-700 cursor-pointer">Delete</div>
+              </div>
             </div>
-            <div class="flex justify-start text-sm">Item created by Neven</div>
+            <div class="flex justify-start text-sm">
+              Item created by guest on {{ createdAt(props.item) }}
+            </div>
           </div>
           <div class="flex flex-col gap-2">
-            <Input :input-id="'name'" :label="'Your name'" :input-type="'text'" :div-class="'flex flex-col items-start'" />
+            <Input
+              :input-id="'name'"
+              :label="'Your name'"
+              :input-type="'text'"
+              :div-class="'flex flex-col items-start'"
+            />
             <Button :button-text="'I can bring'" />
           </div>
         </div>
@@ -67,4 +74,19 @@ import Button from "../Common/Button.vue";
 const props = defineProps(["modalShow", "item"]);
 
 const commonStore = useCommonStore();
+
+const createdAt = (item: any) => {
+  let date: string | string[];
+  let time: string;
+
+  if (item.createdAt) {
+    date = item.createdAt.split("T")[0].split("-");
+    date = date[2] + "." + date[1] + "." + date[0];
+
+    time = item.createdAt.split("T")[1].split(".")[0];
+
+    return `${date}, ${time}`;
+  }
+};
+
 </script>
