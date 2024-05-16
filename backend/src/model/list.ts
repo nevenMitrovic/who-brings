@@ -11,6 +11,7 @@ const listSchema = new Schema({
         amount: Number,
         unit: String,
         bring: { type: Number, default: 0 },
+        createdAt: { type: Date, default: Date.now }
     }],
 },
     { timestamps: true });
