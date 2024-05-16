@@ -77,8 +77,15 @@
         </div>
         <div>
           <h2 class="text-2xl text-gray-800 font-bold">Items:</h2>
-          <div v-for="item in list.items">
-            <ItemComponent :item="item" />
+          <div
+            v-for="item in list.items"
+            class="flex flex-col gap-1 py-0.5"
+            :key="item._id"
+          >
+            <ItemComponent
+              :item="item"
+              @click="commonStore.toggleItemModal(); setItem(item)"
+            />
           </div>
         </div>
       </div>
@@ -87,6 +94,7 @@
   <DateModal :modal-show="dateModalVisibility" :list="list" />
   <LocationModal :modal-show="locationModalVisibility" :list="list" />
   <DescriptionModal :modal-show="descriptionModalVisibility" :list="list" />
+  <ItemModal :modal-show="itemModalVisibility" :item="item" />
 </template>
 
 <script setup lang="ts">
@@ -100,6 +108,7 @@ import ItemComponent from "./Item.vue";
 import DateModal from "../../Modals/Date.vue";
 import LocationModal from "../../Modals/Location.vue";
 import DescriptionModal from "@/components/Modals/Description.vue";
+import ItemModal from "@/components/Modals/Item.vue";
 import {
   CalendarIcon,
   MapPinIcon,
@@ -108,26 +117,9 @@ import {
 import type { Item } from "@/types/list";
 
 const commonStore = useCommonStore();
-const dateModalVisibility = computed(() => commonStore.getDateModalVisibility);
-const locationModalVisibility = computed(
-  () => commonStore.getLocationModalVisibility
-);
-const descriptionModalVisibility = computed(
-  () => commonStore.getDescriptionModalVisibility
-);
 
 const route = useRoute();
 const id = route.params.id as string;
-
-let name = ref("");
-const createItem = (name: string) => {
-  let item: Item = { name: name };
-
-  listsService.createItem(id, item).then((res) => {
-    list.value = res;
-    document.getElementById("addItem").value = "";
-  });
-};
 
 let list = ref({});
 onMounted(() => {
@@ -135,6 +127,25 @@ onMounted(() => {
     list.value = res;
   });
 });
+
+let name = ref("");
+const createItem = (name: string) => {
+  let item: Item = { name: name };
+  
+  listsService.createItem(id, item).then((res) => {
+    list.value = res;
+    document.getElementById("addItem").value = "";
+  });
+};
+
+const dateModalVisibility = computed(() => commonStore.getDateModalVisibility);
+const locationModalVisibility = computed(
+  () => commonStore.getLocationModalVisibility
+);
+const descriptionModalVisibility = computed(
+  () => commonStore.getDescriptionModalVisibility
+);
+const itemModalVisibility = computed(() => commonStore.getItemModalVisibility);
 
 watch(
   [dateModalVisibility, locationModalVisibility, descriptionModalVisibility],
@@ -144,4 +155,10 @@ watch(
     });
   }
 );
+
+let item = ref({});
+const setItem = (newItem: any) => {
+  item.value = newItem;
+}
+
 </script>
