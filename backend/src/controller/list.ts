@@ -36,7 +36,7 @@ interface Item {
     description?: string
     amount?: number
     unit?: string
-    bring?: number
+    bring?: { name: string, bring: number }
 };
 
 interface List {
@@ -173,6 +173,10 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
         }
 
         if(bring) {
+            if(!bring.name) {
+                throw createHttpError(400, "Who brings must have name");
+            }
+            
             item.bring = bring;
         }
 

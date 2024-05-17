@@ -11,5 +11,8 @@ export interface Item {
     description?: string,
     amount?: number,
     unit?: string
-    bring?: number
+    bring?: {
+        name?: string
+        bring?: number
+    }
 };

@@ -88,5 +88,4 @@ const createdAt = (item: any) => {
     return `${date}, ${time}`;
   }
 };
-
 </script>

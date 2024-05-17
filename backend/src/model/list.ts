@@ -10,8 +10,11 @@ const listSchema = new Schema({
         description: String,
         amount: Number,
         unit: String,
-        bring: { type: Number, default: 0 },
-        createdAt: { type: Date, default: Date.now }
+        bring: {
+            name: String,
+            bring: { type: Number, default: 0 },
+        },
+        createdAt: { type: Date, default: Date.now },
     }],
 },
     { timestamps: true });
