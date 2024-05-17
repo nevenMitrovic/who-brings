@@ -48,7 +48,7 @@
               Cancel
             </div>
           </div>
-          <div>
+          <div class="w-full">
             <Input
               :input-id="'name'"
               :label="'Item name'"
@@ -79,14 +79,14 @@
                 :input-placeholder="'1'"
                 :div-class="'w-1/2'"
               />
-              <div>
+              <div class="w-1/2">
                 <label
                   for="unit"
                   class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
                   >Unit</label
                 >
                 <select
-                  class="bg-gray-50 w-[300px] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   v-model="select"
                 >
                   <option value="kg">Kg</option>
@@ -99,7 +99,7 @@
                 </select>
               </div>
             </div>
-            <div class="w-full my-2">
+            <div class="w-full my-10">
               <Button :button-text="'Save item'" :button-class="'w-full'" />
             </div>
           </div>
