@@ -43,7 +43,7 @@
             <div class="flex justify-between items-center">
               <div class="text-2xl font-semibold">{{ props.item.name }}</div>
               <div class="flex gap-4 text-md">
-                <div class="cursor-pointer">Edit</div>
+                <div class="cursor-pointer" @click="commonStore.toggleItemModal(); commonStore.toggleItemDetailsModal()">Edit</div>
                 <div class="text-red-700 cursor-pointer">Delete</div>
               </div>
             </div>
@@ -72,8 +72,8 @@
 <script setup lang="ts">
 import { useCommonStore } from "@/stores/commonStore";
 import listsService from "@/services/lists-service";
-import Input from "../Common/Input.vue";
-import Button from "../Common/Button.vue";
+import Input from "../../Common/Input.vue";
+import Button from "../../Common/Button.vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";

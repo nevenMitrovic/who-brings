@@ -7,6 +7,7 @@ export const useCommonStore = defineStore({
     locationModalVisibility: false,
     descriptionModalVisibility: false,
     itemModalVisibility: false,
+    itemDetailsModalVisibility: false,
   }),
   actions: {
     toggleDateModal() {
@@ -21,11 +22,15 @@ export const useCommonStore = defineStore({
     toggleItemModal() {
       this.itemModalVisibility = !this.itemModalVisibility
     },
+    toggleItemDetailsModal() {
+      this.itemDetailsModalVisibility = !this.itemDetailsModalVisibility
+    },
   },
   getters: {
     getDateModalVisibility: (state) => state.dateModalVisibility,
     getLocationModalVisibility: (state) => state.locationModalVisibility,
     getDescriptionModalVisibility: (state) => state.descriptionModalVisibility,
     getItemModalVisibility: (state) => state.itemModalVisibility,
+    getItemDetailsModalVisibility: (state) => state.itemDetailsModalVisibility,
   }
 })

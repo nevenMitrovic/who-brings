@@ -95,6 +95,7 @@
   <LocationModal :modal-show="locationModalVisibility" :list="list" />
   <DescriptionModal :modal-show="descriptionModalVisibility" :list="list" />
   <ItemModal :modal-show="itemModalVisibility" :item="item" :listId="id" />
+  <ItemDetailsModal :modal-show="itemDetailsModalVisibility" :item="item" :listId="id" />
 </template>
 
 <script setup lang="ts">
@@ -108,7 +109,8 @@ import ItemComponent from "./Item.vue";
 import DateModal from "../../Modals/Date.vue";
 import LocationModal from "../../Modals/Location.vue";
 import DescriptionModal from "@/components/Modals/Description.vue";
-import ItemModal from "@/components/Modals/Item.vue";
+import ItemModal from "@/components/Modals/Item/Item.vue";
+import ItemDetailsModal from "@/components/Modals/Item/ItemDetails.vue";
 import {
   CalendarIcon,
   MapPinIcon,
@@ -146,6 +148,7 @@ const descriptionModalVisibility = computed(
   () => commonStore.getDescriptionModalVisibility
 );
 const itemModalVisibility = computed(() => commonStore.getItemModalVisibility);
+const itemDetailsModalVisibility = computed(() => commonStore.getItemDetailsModalVisibility);
 
 watch(
   [dateModalVisibility, locationModalVisibility, descriptionModalVisibility, itemModalVisibility],
