@@ -8,7 +8,7 @@
     <div class="flex items-center gap-2">
       <CheckCircleIcon
         class="h-6 w-6 text-gray-200"
-        :class="item.bring == 1 && 'text-green-300'"
+        :class="item.bring.bring == 1 && 'text-green-300'"
       />
       <span class="text-lg text-gray-800 font-bold">{{ item.name }}</span>
     </div>
