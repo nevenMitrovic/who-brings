@@ -57,8 +57,11 @@
               :label="'Your name'"
               :input-type="'text'"
               :div-class="'flex flex-col items-start'"
+              v-model="name"
+              v-bind="nameAttrs"
             />
-            <Button :button-text="'I can bring'" />
+            <span class="text-red-700 text-sm flex">{{ errors.name }}</span>
+            <Button :button-text="'I can bring'" @click="console.log(name)" />
           </div>
         </div>
       </div>
@@ -68,8 +71,12 @@
 
 <script setup lang="ts">
 import { useCommonStore } from "@/stores/commonStore";
+import listsService from "@/services/lists-service";
 import Input from "../Common/Input.vue";
 import Button from "../Common/Button.vue";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { z } from "zod";
 
 const props = defineProps(["modalShow", "item"]);
 
@@ -88,4 +95,19 @@ const createdAt = (item: any) => {
     return `${date}, ${time}`;
   }
 };
+
+const { errors, defineField } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      name: z.string().min(1),
+    })
+  ),
+});
+
+const [name, nameAttrs] = defineField("name");
+
+const updateBringName = (name: string) => {
+  
+};
+
 </script>
