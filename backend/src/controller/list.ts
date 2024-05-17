@@ -26,7 +26,7 @@ export const getLists: RequestHandler = async (req, res, next) => {
     try {
         const lists = await ListModel.find().exec();
         res.status(200).json(lists);
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 }
@@ -34,8 +34,7 @@ export const getLists: RequestHandler = async (req, res, next) => {
 interface Item {
     name: string
     description?: string
-    amount?: number
-    unit?: string
+    quantity?: { unit: string, amount: number }
     bring?: { name: string, bring: number }
 };
 
@@ -110,7 +109,7 @@ export const updateList: RequestHandler<ListParams, unknown, List, unknown> = as
 
 export const createItem: RequestHandler<ListParams, unknown, Item, unknown> = async (req, res, next) => {
     const listId = req.params.listId;
-    const { name, description, amount, unit } = req.body;
+    const { name, description, quantity } = req.body;
 
     try {
         if (!name) {
@@ -127,7 +126,7 @@ export const createItem: RequestHandler<ListParams, unknown, Item, unknown> = as
             throw createHttpError(404, "List not found");
         }
 
-        list.items.push({ name, description, amount, unit });
+        list.items.push({ name, description, quantity });
 
         const createdItem = await list.save();
 
@@ -140,7 +139,7 @@ export const createItem: RequestHandler<ListParams, unknown, Item, unknown> = as
 export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = async (req, res, next) => {
     const itemId = req.params.itemId;
     const listId = req.params.listId;
-    const { name, description, amount, unit, bring } = req.body;
+    const { name, description, quantity, bring } = req.body;
 
     try {
 
@@ -156,27 +155,35 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
 
         const item = list.items.find(item => item._id?.toString() == itemId);
 
-        if(!item) {
+        if (!item) {
             throw createHttpError(404, "Item not found");
         }
 
-        if(description) {
+        if(!name) {
+            throw createHttpError(400, "Name is required");
+        }
+
+        if (description) {
             item.description = description;
         }
 
-        if(amount) {
-            item.amount = amount;
+        if (quantity) {
+            if (!quantity.unit) {
+                throw createHttpError(400, "Quantity must have a unit.");
+            }
+
+            if (!quantity.amount) {
+                throw createHttpError(400, "Quantity must have a amount.")
+            }
+
+            item.quantity = quantity;
         }
 
-        if(unit) {
-            item.unit = unit;
-        }
-
-        if(bring) {
-            if(!bring.name) {
+        if (bring) {
+            if (!bring.name) {
                 throw createHttpError(400, "Who brings must have name");
             }
-            
+
             item.bring = bring;
         }
 

@@ -8,8 +8,10 @@ const listSchema = new Schema({
     items: [{
         name: String,
         description: String,
-        amount: Number,
-        unit: String,
+        quantity: {
+            unit: String,
+            amount: Number
+        },
         bring: {
             name: String,
             bring: { type: Number, default: 0 },
