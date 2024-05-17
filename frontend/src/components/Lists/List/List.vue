@@ -94,7 +94,7 @@
   <DateModal :modal-show="dateModalVisibility" :list="list" />
   <LocationModal :modal-show="locationModalVisibility" :list="list" />
   <DescriptionModal :modal-show="descriptionModalVisibility" :list="list" />
-  <ItemModal :modal-show="itemModalVisibility" :item="item" />
+  <ItemModal :modal-show="itemModalVisibility" :item="item" :listId="id" />
 </template>
 
 <script setup lang="ts">
@@ -148,7 +148,7 @@ const descriptionModalVisibility = computed(
 const itemModalVisibility = computed(() => commonStore.getItemModalVisibility);
 
 watch(
-  [dateModalVisibility, locationModalVisibility, descriptionModalVisibility],
+  [dateModalVisibility, locationModalVisibility, descriptionModalVisibility, itemModalVisibility],
   () => {
     listsService.getList(id).then((res) => {
       list.value = res;

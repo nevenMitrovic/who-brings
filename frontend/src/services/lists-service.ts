@@ -53,6 +53,11 @@ class ListsService {
             throw error;
         }
     }
+
+    async updateItem(listId: string, itemId: string, data: Item) {
+        const response = await this.httpClient.patch('/lists/' + listId + '/' + itemId, data);
+        return response.data;
+    }
 };
 
 export default new ListsService();

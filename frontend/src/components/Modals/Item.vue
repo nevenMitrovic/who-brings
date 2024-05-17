@@ -61,7 +61,7 @@
               v-bind="nameAttrs"
             />
             <span class="text-red-700 text-sm flex">{{ errors.name }}</span>
-            <Button :button-text="'I can bring'" @click="console.log(name)" />
+            <Button :button-text="'I can bring'" @click="updateBring(name)" />
           </div>
         </div>
       </div>
@@ -77,8 +77,9 @@ import Button from "../Common/Button.vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
+import type { Item } from "@/types/list";
 
-const props = defineProps(["modalShow", "item"]);
+const props = defineProps(["modalShow", "item", "listId"]);
 
 const commonStore = useCommonStore();
 
@@ -106,8 +107,17 @@ const { errors, defineField } = useForm({
 
 const [name, nameAttrs] = defineField("name");
 
-const updateBringName = (name: string) => {
-  
-};
+const updateBring = (name: any) => {
+  let item: Item = {
+    name: props.item.name,
+    bring: {
+      name,
+      bring: 1,
+    },
+  };
 
+  listsService.updateItem(props.listId, props.item._id, item).then((res) => {
+    commonStore.toggleItemModal();
+  });
+};
 </script>
