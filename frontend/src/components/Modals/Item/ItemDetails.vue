@@ -54,6 +54,7 @@
               :label="'Item name'"
               :input-class="'text'"
               :input-placeholder="'Add item name'"
+              v-model="itemDetails.name"
             />
             <div class="flex flex-col">
               <label
@@ -69,6 +70,7 @@
                 rows="5"
                 cols="40"
                 maxlength="300"
+                v-model="itemDetails.description"
               ></textarea>
             </div>
             <div class="flex gap-5">
@@ -78,6 +80,7 @@
                 :input-type="'number'"
                 :input-placeholder="'1'"
                 :div-class="'w-1/2'"
+                v-model="itemDetails.quantity.amount"
               />
               <div class="w-1/2">
                 <label
@@ -87,7 +90,7 @@
                 >
                 <select
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  v-model="select"
+                  v-model="itemDetails.quantity.unit"
                 >
                   <option value="kg">Kg</option>
                   <option value="literg">Liter</option>
@@ -100,7 +103,13 @@
               </div>
             </div>
             <div class="w-full my-10">
-              <Button :button-text="'Save item'" :button-class="'w-full'" />
+              <Button
+                :button-text="'Save item'"
+                :button-class="'w-full'"
+                @click="
+                  updateItemDetails(props.listId, props.item._id, itemDetails)
+                "
+              />
             </div>
           </div>
         </div>
@@ -111,13 +120,30 @@
 
 <script setup lang="ts">
 import { useCommonStore } from "@/stores/commonStore";
-import { ref } from "vue";
+import { reactive } from "vue";
+import listsService from "@/services/lists-service";
 import Input from "@/components/Common/Input.vue";
 import Button from "@/components/Common/Button.vue";
+import type { Item } from "@/types/list";
 
 const commonStore = useCommonStore();
 
 const props = defineProps(["modalShow", "item", "listId"]);
 
-const select = ref("");
+const itemDetails: Item = reactive({
+  name: "",
+  description: "",
+  quantity: { unit: "", amount: 0 },
+});
+
+const updateItemDetails = (listId: string, itemId: string, data: Item) => {
+  if (!data.name) {
+    data.name = props.item.name;
+  }
+
+  listsService.updateItem(listId, itemId, data).then((res) => {
+    commonStore.toggleItemDetailsModal();
+    commonStore.toggleItemModal();
+  });
+};
 </script>

@@ -159,23 +159,18 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
             throw createHttpError(404, "Item not found");
         }
 
-        if(!name) {
+        if (!name) {
             throw createHttpError(400, "Name is required");
+        } else {
+            item.name = name;
         }
+
 
         if (description) {
             item.description = description;
         }
 
         if (quantity) {
-            if (!quantity.unit) {
-                throw createHttpError(400, "Quantity must have a unit.");
-            }
-
-            if (!quantity.amount) {
-                throw createHttpError(400, "Quantity must have a amount.")
-            }
-
             item.quantity = quantity;
         }
 

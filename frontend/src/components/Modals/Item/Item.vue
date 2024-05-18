@@ -61,6 +61,7 @@
               v-bind="nameAttrs"
             />
             <span class="text-red-700 text-sm flex">{{ errors.name }}</span>
+            <span class="text-red-700 text-sm flex" v-show="!name">{{ submitError }}</span>
             <Button :button-text="'I can bring'" @click="updateBring(name)" />
           </div>
         </div>
@@ -77,6 +78,7 @@ import Button from "../../Common/Button.vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
+import { ref } from "vue";
 import type { Item } from "@/types/list";
 
 const props = defineProps(["modalShow", "item", "listId"]);
@@ -107,6 +109,8 @@ const { errors, defineField } = useForm({
 
 const [name, nameAttrs] = defineField("name");
 
+const submitError = ref("");
+
 const updateBring = (name: any) => {
   let item: Item = {
     name: props.item.name,
@@ -116,8 +120,10 @@ const updateBring = (name: any) => {
     },
   };
 
-  listsService.updateItem(props.listId, props.item._id, item).then((res) => {
+  listsService.updateItem(props.listId, props.item._id, item)
+  .then((res) => {
     commonStore.toggleItemModal();
-  });
+  })
+  .catch(error => submitError.value = "Who brings must have a name" );
 };
 </script>

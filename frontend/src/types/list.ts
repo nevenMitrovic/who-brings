@@ -9,8 +9,10 @@ export interface List {
 export interface Item {
     name: string,
     description?: string,
-    amount?: number,
-    unit?: string
+    quantity?: {
+        unit: string,
+        amount: number
+    },
     bring?: {
         name?: string
         bring?: number
