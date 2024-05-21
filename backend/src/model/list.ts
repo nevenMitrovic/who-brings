@@ -10,7 +10,8 @@ const listSchema = new Schema({
         description: String,
         quantity: {
             unit: String,
-            amount: Number
+            amount: Number,
+            collect: { type: Number, default: 0 }
         },
         bring: {
             name: String,

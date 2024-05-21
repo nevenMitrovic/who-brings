@@ -34,7 +34,7 @@ export const getLists: RequestHandler = async (req, res, next) => {
 interface Item {
     name: string
     description?: string
-    quantity?: { unit: string, amount: number }
+    quantity?: { unit: string, amount: number, collect: number }
     bring?: { name: string, bring: number }
 };
 
@@ -165,12 +165,25 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
             item.name = name;
         }
 
-
         if (description) {
             item.description = description;
         }
 
         if (quantity) {
+            if (item.quantity) {
+                if (quantity.unit) {
+                    item.quantity.unit = quantity.unit;
+                }
+
+                if (quantity.amount) {
+                    item.quantity.amount = quantity.amount;
+                }
+
+                if (quantity.collect) {
+                    item.quantity.collect += quantity.collect;
+                }
+            }
+
             item.quantity = quantity;
         }
 

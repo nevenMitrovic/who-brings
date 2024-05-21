@@ -93,7 +93,7 @@
                   v-model="itemDetails.quantity.unit"
                 >
                   <option value="kg">Kg</option>
-                  <option value="literg">Liter</option>
+                  <option value="liter">Liter</option>
                   <option value="pound">Pound</option>
                   <option value="pieces">Pieces</option>
                   <option value="packs">Packs</option>
@@ -133,12 +133,16 @@ const props = defineProps(["modalShow", "item", "listId"]);
 const itemDetails: Item = reactive({
   name: "",
   description: "",
-  quantity: { unit: "", amount: 0 },
+  quantity: { unit: "", amount: 0, collect: 0 },
 });
 
 const updateItemDetails = (listId: string, itemId: string, data: Item) => {
   if (!data.name) {
     data.name = props.item.name;
+  }
+
+  if(data.quantity?.amount > 1 && data.quantity?.unit == "") {
+    data.quantity.unit = "unknown"
   }
 
   listsService.updateItem(listId, itemId, data).then((res) => {

@@ -23,7 +23,7 @@
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div
-        class="flex min-h-full items-end flex-col justify-end p-4 text-center sm:items-center sm:p-0"
+        class="flex min-h-full items-end flex-col justify-end p-4 sm:items-center sm:p-0"
       >
         <!--
         Modal panel, show/hide based on modal state.
@@ -43,13 +43,44 @@
             <div class="flex justify-between items-center">
               <div class="text-2xl font-semibold">{{ props.item.name }}</div>
               <div class="flex gap-4 text-md">
-                <div class="cursor-pointer" @click="commonStore.toggleItemModal(); commonStore.toggleItemDetailsModal()">Edit</div>
+                <div
+                  class="cursor-pointer"
+                  @click="
+                    commonStore.toggleItemModal();
+                    commonStore.toggleItemDetailsModal();
+                  "
+                >
+                  Edit
+                </div>
                 <div class="text-red-700 cursor-pointer">Delete</div>
               </div>
             </div>
             <div class="flex justify-start text-sm">
               Item created by guest on {{ createdAt(props.item) }}
             </div>
+            <div
+              v-if="props.item.description"
+              class="flex justify-start text-md py-2"
+            >
+              {{ props.item.description }}
+            </div>
+            <div
+              v-if="
+                props.item.quantity?.amount > 1 &&
+                props.item.quantity?.amount != props.item.quantity?.collect
+              "
+            >
+              <Input
+                :input-type="'number'"
+                :input-id="'collect'"
+                :input-placeholder="'1'"
+                :label="'I bring a part of it:'"
+                :div-class="'py-2'"
+                v-model="collect"
+              />
+              <Button :button-text="'Save'" @click="updateCollect(collect)" />
+            </div>
+            <div>{{ console.log(props.item) }}</div>
           </div>
           <div class="flex flex-col gap-2">
             <Input
@@ -61,7 +92,9 @@
               v-bind="nameAttrs"
             />
             <span class="text-red-700 text-sm flex">{{ errors.name }}</span>
-            <span class="text-red-700 text-sm flex" v-show="!name">{{ submitError }}</span>
+            <span class="text-red-700 text-sm flex" v-show="!name">{{
+              submitError
+            }}</span>
             <Button :button-text="'I can bring'" @click="updateBring(name)" />
           </div>
         </div>
@@ -120,10 +153,37 @@ const updateBring = (name: any) => {
     },
   };
 
-  listsService.updateItem(props.listId, props.item._id, item)
-  .then((res) => {
+  listsService
+    .updateItem(props.listId, props.item._id, item)
+    .then((res) => {
+      commonStore.toggleItemModal();
+    })
+    .catch((error) => (submitError.value = "Who brings must have a name"));
+};
+
+const collect = ref(0);
+const updateCollect = (collect: number) => {
+  let item: Item = {
+    name: props.item.name,
+    quantity: {
+      unit: props.item.quantity.unit,
+      amount: props.item.quantity.amount,
+      collect,
+    },
+  };
+
+  if (item.quantity?.collect > item.quantity?.amount) {
+    item.bring?.bring = 1;
+    
+    if ((props.item.bring.name = "")) {
+      props.item.bring.name = "unknown";
+    } else {
+      item.bring?.name = props.item.bring.name;
+    }
+  }
+
+  listsService.updateItem(props.listId, props.item._id, item).then((res) => {
     commonStore.toggleItemModal();
-  })
-  .catch(error => submitError.value = "Who brings must have a name" );
+  });
 };
 </script>

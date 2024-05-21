@@ -11,12 +11,17 @@
         :class="item.bring.bring == 1 && 'text-green-300'"
       />
       <span class="text-lg text-gray-800 font-bold">{{ item.name }}</span>
+      <span v-if="item.quantity.amount > 1 && item.quantity.amount != item.quantity.collect">
+        {{ item.quantity.collect }} / {{ item.quantity.amount }}
+      </span>
     </div>
     <div
       class="bg-gray-700 text-white rounded text-xs p-1 cursor-pointer hover:bg-gray-500 text-centre"
       :class="item.bring.bring == 1 && 'bg-white'"
     >
-      <span v-if="item.bring.bring == 1" class="text-green-500 font-semibold">{{ item.bring.name }} brings it!</span>
+      <span v-if="item.bring.bring == 1" class="text-green-500 font-semibold"
+        >{{ item.bring.name }} brings it!</span
+      >
       <span v-else>I can bring</span>
     </div>
   </div>
@@ -26,5 +31,4 @@
 import { CheckCircleIcon } from "@heroicons/vue/24/outline";
 
 defineProps(["item"]);
-
 </script>
