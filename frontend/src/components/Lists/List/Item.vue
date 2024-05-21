@@ -11,7 +11,7 @@
         :class="item.bring.bring == 1 && 'text-green-300'"
       />
       <span class="text-lg text-gray-800 font-bold">{{ item.name }}</span>
-      <span v-if="item.quantity.amount > 1 && item.quantity.amount != item.quantity.collect">
+      <span v-if="item.quantity.amount > 1 && item.quantity.amount > item.quantity.collect">
         {{ item.quantity.collect }} / {{ item.quantity.amount }}
       </span>
     </div>

@@ -36,7 +36,7 @@
             To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         -->
         <div
-          class="w-1/2 h-[500px] bg-white rounded-t-md flex flex-col p-2"
+          class="w-1/2 bg-white rounded-t-md flex flex-col p-2"
           @click.stop
         >
           <div class="flex justify-between w-full">
@@ -102,7 +102,7 @@
                 </select>
               </div>
             </div>
-            <div class="w-full my-10">
+            <div class="w-full pt-2">
               <Button
                 :button-text="'Save item'"
                 :button-class="'w-full'"

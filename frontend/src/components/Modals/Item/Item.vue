@@ -36,7 +36,7 @@
           To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
       -->
         <div
-          class="w-1/2 h-96 bg-white rounded-t-md flex flex-col justify-between p-2"
+          class="w-1/2 bg-white rounded-t-md flex flex-col justify-between p-2"
           @click.stop
         >
           <div>
@@ -67,7 +67,7 @@
             <div
               v-if="
                 props.item.quantity?.amount > 1 &&
-                props.item.quantity?.amount != props.item.quantity?.collect
+                props.item.quantity?.amount > props.item.quantity?.collect
               "
             >
               <Input
@@ -80,7 +80,13 @@
               />
               <Button :button-text="'Save'" @click="updateCollect(collect)" />
             </div>
-            <div>{{ console.log(props.item) }}</div>
+            <div v-if="props.item.bring?.bring == 1">
+              <span
+                >{{ props.item.bring.name }} brings
+                {{ props.item.quantity.collect }}
+                {{ props.item.quantity.unit }}</span
+              >
+            </div>
           </div>
           <div class="flex flex-col gap-2">
             <Input
@@ -143,7 +149,6 @@ const { errors, defineField } = useForm({
 const [name, nameAttrs] = defineField("name");
 
 const submitError = ref("");
-
 const updateBring = (name: any) => {
   let item: Item = {
     name: props.item.name,
@@ -170,16 +175,20 @@ const updateCollect = (collect: number) => {
       amount: props.item.quantity.amount,
       collect,
     },
+    bring: {
+      bring: props.item.bring.bring,
+      name: props.item.bring.name,
+    },
   };
 
-  if (item.quantity?.collect > item.quantity?.amount) {
-    item.bring?.bring = 1;
-    
-    if ((props.item.bring.name = "")) {
-      props.item.bring.name = "unknown";
-    } else {
-      item.bring?.name = props.item.bring.name;
-    }
+  if (!item.bring.name) {
+    item.bring.name = "unknown";
+  }
+
+  if (item.quantity.collect >= item.quantity.amount) {
+    item.bring.bring = 1;
+  } else {
+    item.bring.bring = 0;
   }
 
   listsService.updateItem(props.listId, props.item._id, item).then((res) => {
