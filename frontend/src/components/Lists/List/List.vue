@@ -151,7 +151,7 @@ const itemModalVisibility = computed(() => commonStore.getItemModalVisibility);
 const itemDetailsModalVisibility = computed(() => commonStore.getItemDetailsModalVisibility);
 
 watch(
-  [dateModalVisibility, locationModalVisibility, descriptionModalVisibility, itemModalVisibility],
+  [dateModalVisibility, locationModalVisibility, descriptionModalVisibility, itemModalVisibility, itemDetailsModalVisibility],
   () => {
     listsService.getList(id).then((res) => {
       list.value = res;

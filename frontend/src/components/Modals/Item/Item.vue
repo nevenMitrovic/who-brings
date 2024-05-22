@@ -78,7 +78,7 @@
                 :div-class="'py-2'"
                 v-model="collect"
               />
-              <Button :button-text="'Save'" @click="updateCollect(collect)" />
+              <Button :button-text="'Save'" @click="updateCollect(collect, name)" />
             </div>
             <div v-if="props.item.bring?.bring == 1">
               <span
@@ -167,7 +167,7 @@ const updateBring = (name: any) => {
 };
 
 const collect = ref(0);
-const updateCollect = (collect: number) => {
+const updateCollect = (collect: number, name: any) => {
   let item: Item = {
     name: props.item.name,
     quantity: {
@@ -177,7 +177,7 @@ const updateCollect = (collect: number) => {
     },
     bring: {
       bring: props.item.bring.bring,
-      name: props.item.bring.name,
+      name,
     },
   };
 

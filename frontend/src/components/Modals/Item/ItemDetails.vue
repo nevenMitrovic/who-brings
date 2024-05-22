@@ -147,7 +147,6 @@ const updateItemDetails = (listId: string, itemId: string, data: Item) => {
 
   listsService.updateItem(listId, itemId, data).then((res) => {
     commonStore.toggleItemDetailsModal();
-    commonStore.toggleItemModal();
   });
 };
 </script>

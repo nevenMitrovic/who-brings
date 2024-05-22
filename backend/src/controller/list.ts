@@ -182,7 +182,7 @@ export const updateItem: RequestHandler<ListParams, unknown, Item, unknown> = as
                 if (quantity.collect) {
                     item.quantity.collect += quantity.collect;
                 }
-            }
+            } 
 
             item.quantity = quantity;
         }
