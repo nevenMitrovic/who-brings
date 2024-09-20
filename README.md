@@ -40,7 +40,7 @@
 
 3. **Create a .env file in the root directory with the following values:**
 
-    MONGODB_URI=<your-mongodb-connection-string>
+    MONGO_CONNECTION_STRING=<your-mongodb-connection-string>
     PORT=5000
 
 4. **Start the backend:**
@@ -57,7 +57,11 @@
 
     npm install
 
-3. **Start the frontend development server:**
+3. **Create a .env file in the root directory with the following values:**
+
+    VITE_API_URL=http://localhost:5000/api
+
+4. **Start the frontend development server:**
 
     npm run dev
 
